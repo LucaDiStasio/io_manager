@@ -1,4 +1,4 @@
-function[]=writeABQnodeset(filepath,nlabels,nset)
+function[]=writeABQnodeset(filepath,inputType,nlabels,nset)
 %%
 %==============================================================================
 % Copyright (c) 2016 Université de Lorraine & Luleå tekniska universitet
@@ -43,20 +43,37 @@ nmax = 16;
 
 fprintf(fileId,'**\n');
 
-idxs = size(nlabels,1);
-
-fprintf(fileId,strcat('*NSET, NSET = ',nset,'\n'));
-for i=1:idxs
-    line = '';
-    if(mod(i,nmax)==1)
-        line = strcat(line,' ',num2str(nlabels(i)));
-    elseif(mod(i,nmax)==0)
-        line = strcat(line,', ',num2str(nlabels(i)),'\n');
-        fprintf(fileId,line);
-        line = '';
-    else
-        line = strcat(line,', ',num2str(nlabels(i)));
-    end
+switch inputType
+    case 1
+        idxs = size(nlabels,1);
+        fprintf(fileId,strcat('*NSET, NSET = ',nset,'\n'));
+        for i=1:idxs
+            line = '';
+            if(mod(i,nmax)==1)
+                line = strcat(line,' ',num2str(nlabels(i)));
+            elseif(mod(i,nmax)==0)
+                line = strcat(line,', ',num2str(nlabels(i)),'\n');
+                fprintf(fileId,line);
+                line = '';
+            else
+                line = strcat(line,', ',num2str(nlabels(i)));
+            end
+        end
+    case 2
+        idxs = length(nlabels);
+        fprintf(fileId,strcat('*NSET, NSET = ',nset,'\n'));
+        for i=1:idxs
+            line = '';
+            if(mod(i,nmax)==1)
+                line = strcat(line,' ',num2str(nlabels{i}));
+            elseif(mod(i,nmax)==0)
+                line = strcat(line,', ',num2str(nlabels{i}),'\n');
+                fprintf(fileId,line);
+                line = '';
+            else
+                line = strcat(line,', ',num2str(nlabels{i}));
+            end
+        end
 end
 
 fprintf(fileId,'**\n');
