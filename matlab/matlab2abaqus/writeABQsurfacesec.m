@@ -1,4 +1,4 @@
-function[]=writeABQelementset(filepath,inputType,ellabels,elset)
+function[]=writeABQsurfacesec(filepath)
 %%
 %==============================================================================
 % Copyright (c) 2016 Université de Lorraine & Luleå tekniska universitet
@@ -39,45 +39,10 @@ function[]=writeABQelementset(filepath,inputType,ellabels,elset)
 
 fileId = fopen(filepath, 'a');
 
-nmax = 16;
-
 fprintf(fileId,'**\n');
-
-
-
-switch inputType
-    case 1
-        idxs = size(ellabels,1);
-        fprintf(fileId,strcat('*ELSET, ELSET = ',elset,'\n'));
-        for i=1:idxs
-            line = '';
-            if(mod(i,nmax)==1)
-                line = strcat(line,' ',num2str(ellabels(i)));
-            elseif(mod(i,nmax)==0)
-                line = strcat(line,', ',num2str(ellabels(i)),'\n');
-                fprintf(fileId,line);
-                line = '';
-            else
-                line = strcat(line,', ',num2str(ellabels(i)));
-            end
-        end
-    case 2
-        idxs = length(ellabels);
-        fprintf(fileId,strcat('*ELSET, ELSET = ',elset,'\n'));
-        for i=1:idxs
-            line = '';
-            if(mod(i,nmax)==1)
-                line = strcat(line,' ',num2str(ellabels{i}));
-            elseif(mod(i,nmax)==0)
-                line = strcat(line,', ',num2str(ellabels{i}),'\n');
-                fprintf(fileId,line);
-                line = '';
-            else
-                line = strcat(line,', ',num2str(ellabels{i}));
-            end
-        end
-end
-
+fprintf(fileId,'**---------------------------------------------------------------------------------------------------------------------------------\n');
+fprintf(fileId,'**----------------------------------------------------- SURFACES ------------------------------------------------------------------\n');
+fprintf(fileId,'**---------------------------------------------------------------------------------------------------------------------------------\n');
 fprintf(fileId,'**\n');
 
 fclose(fileId);
