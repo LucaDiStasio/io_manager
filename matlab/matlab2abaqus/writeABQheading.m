@@ -1,7 +1,7 @@
-function[]=writeABQheading(filepath,heading)
+function[]=writeABQheading(filepath,data,comment)
 %%
 %==============================================================================
-% Copyright (c) 2016 Université de Lorraine & Luleå tekniska universitet
+% Copyright (c) 2017 Universite de Lorraine & Lulea tekniska universitet
 % Author: Luca Di Stasio <luca.distasio@gmail.com>
 %                        <luca.distasio@ingpec.eu>
 %
@@ -14,7 +14,7 @@ function[]=writeABQheading(filepath,heading)
 % Redistributions in binary form must reproduce the above copyright
 % notice, this list of conditions and the following disclaimer in
 % the documentation and/or other materials provided with the distribution
-% Neither the name of the Université de Lorraine or Luleå tekniska universitet
+% Neither the name of the Universite de Lorraine or Lulea tekniska universitet
 % nor the names of its contributors may be used to endorse or promote products
 % derived from this software without specific prior written permission.
 % 
@@ -40,8 +40,19 @@ function[]=writeABQheading(filepath,heading)
 fileId = fopen(filepath, 'a');
 
 fprintf(fileId,'**\n');
-fprintf(fileId,'*HEADING\n');
-fprintf(fileId, strcat(' ', heading, '\n'));
+
+line = '*HEADING';
+
+fprintf(fileId,strcat(line,'\n'));
+
+if ~strcmp(comment,'none') && ~strcmp(comment,'NONE') && ~strcmp(comment,'None')
+    fprintf(fileId,strcat('**',comment,'\n'));
+end
+
+for i=1:length(data)
+    fprintf(fileId,strcat(' ',data{i},'\n'));
+end
+
 fprintf(fileId,'**\n');
 
 fclose(fileId);

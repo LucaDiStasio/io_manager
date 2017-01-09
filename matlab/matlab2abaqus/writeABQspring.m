@@ -1,7 +1,7 @@
-function[]=writeABQmaterial(filepath,name,rtol,sratefactor,strainrateregularization)
+function[]=writeABQspring(filepath,elset,complexstiffness,dependencies,nonlinear,orientation,rtol,data,comment)
 %%
 %==============================================================================
-% Copyright (c) 2016 Université de Lorraine & Luleå tekniska universitet
+% Copyright (c) 2017 Universite de Lorraine & Lulea tekniska universitet
 % Author: Luca Di Stasio <luca.distasio@gmail.com>
 %                        <luca.distasio@ingpec.eu>
 %
@@ -14,7 +14,7 @@ function[]=writeABQmaterial(filepath,name,rtol,sratefactor,strainrateregularizat
 % Redistributions in binary form must reproduce the above copyright
 % notice, this list of conditions and the following disclaimer in
 % the documentation and/or other materials provided with the distribution
-% Neither the name of the Université de Lorraine or Luleå tekniska universitet
+% Neither the name of the Universite de Lorraine or Lulea tekniska universitet
 % nor the names of its contributors may be used to endorse or promote products
 % derived from this software without specific prior written permission.
 % 
@@ -41,20 +41,41 @@ fileId = fopen(filepath, 'a');
 
 fprintf(fileId,'**\n');
 
-line = strcat('*MATERIAL, NAME = ',name);
+line = '*SPRING';
+
+if ~strcmp(elset,'none') && ~strcmp(elset,'NONE') && ~strcmp(elset,'None')
+    line = strcat(line,', ELSET=',elset);
+end
+
+if ~strcmp(complexstiffness,'none') && ~strcmp(complexstiffness,'NONE') && ~strcmp(complexstiffness,'None')
+    line = strcat(line,', COMPLEX STIFFNESS=',complexstiffness);
+end
+
+if ~strcmp(dependencies,'none') && ~strcmp(dependencies,'NONE') && ~strcmp(dependencies,'None')
+    line = strcat(line,', DEPENDENCIES=',dependencies);
+end
+
+if ~strcmp(nonlinear,'none') && ~strcmp(nonlinear,'NONE') && ~strcmp(nonlinear,'None')
+    line = strcat(line,', NONLINEAR=',nonlinear);
+end
+
+if ~strcmp(orientation,'none') && ~strcmp(orientation,'NONE') && ~strcmp(orientation,'None')
+    line = strcat(line,', ORIENTATION=',orientation);
+end
 
 if ~strcmp(rtol,'none') && ~strcmp(rtol,'NONE') && ~strcmp(rtol,'None')
-    line = strcat(line,rtol);
+    line = strcat(line,', RTOL=',rtol);
 end
 
-if ~strcmp(sratefactor,'none') && ~strcmp(sratefactor,'NONE') && ~strcmp(sratefactor,'None')
-    line = strcat(line,sratefactor);
+fprintf(fileId,strcat(line,'\n'));
+
+if ~strcmp(comment,'none') && ~strcmp(comment,'NONE') && ~strcmp(comment,'None')
+    fprintf(fileId,strcat('**',comment,'\n'));
 end
 
-if ~strcmp(strainrateregularization,'none') && ~strcmp(strainrateregularization,'NONE') && ~strcmp(strainrateregularization,'None')
-    line = strcat(line,name);
+for i=1:length(data)
+    fprintf(fileId,strcat(' ',data{i},'\n'));
 end
-
 
 fprintf(fileId,'**\n');
 

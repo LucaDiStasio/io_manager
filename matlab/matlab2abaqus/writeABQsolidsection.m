@@ -1,8 +1,7 @@
-function[]=writeABQsolidsection(filepath,composite,elset,material,refnode,orientation,controls,...
-                                layup,order,stackdirection,symmetric,data)
+function[]=writeABQsolidsection(filepath,composite,elset,material,refnode,orientation,controls,layup,order,stackdirection,symmetric,data,comment)
 %%
 %==============================================================================
-% Copyright (c) 2016 Université de Lorraine & Luleå tekniska universitet
+% Copyright (c) 2017 Universite de Lorraine & Lulea tekniska universitet
 % Author: Luca Di Stasio <luca.distasio@gmail.com>
 %                        <luca.distasio@ingpec.eu>
 %
@@ -15,7 +14,7 @@ function[]=writeABQsolidsection(filepath,composite,elset,material,refnode,orient
 % Redistributions in binary form must reproduce the above copyright
 % notice, this list of conditions and the following disclaimer in
 % the documentation and/or other materials provided with the distribution
-% Neither the name of the Université de Lorraine or Luleå tekniska universitet
+% Neither the name of the Universite de Lorraine or Lulea tekniska universitet
 % nor the names of its contributors may be used to endorse or promote products
 % derived from this software without specific prior written permission.
 % 
@@ -42,49 +41,53 @@ fileId = fopen(filepath, 'a');
 
 fprintf(fileId,'**\n');
 
-line = strcat('*SOLID SECTION');
+line = '*SOLID SECTION';
 
 if ~strcmp(composite,'none') && ~strcmp(composite,'NONE') && ~strcmp(composite,'None')
-    line = strcat(line,', ',composite);
+    line = strcat(line,', COMPOSITE=',composite);
 end
 
 if ~strcmp(elset,'none') && ~strcmp(elset,'NONE') && ~strcmp(elset,'None')
-    line = strcat(line,', ',elset);
+    line = strcat(line,', ELSET=',elset);
 end
 
 if ~strcmp(material,'none') && ~strcmp(material,'NONE') && ~strcmp(material,'None')
-    line = strcat(line,', ',material);
+    line = strcat(line,', MATERIAL=',material);
 end
 
 if ~strcmp(refnode,'none') && ~strcmp(refnode,'NONE') && ~strcmp(refnode,'None')
-    line = strcat(line,', ',refnode);
+    line = strcat(line,', REF NODE=',refnode);
 end
 
 if ~strcmp(orientation,'none') && ~strcmp(orientation,'NONE') && ~strcmp(orientation,'None')
-    line = strcat(line,', ',orientation);
+    line = strcat(line,', ORIENTATION=',orientation);
 end
 
 if ~strcmp(controls,'none') && ~strcmp(controls,'NONE') && ~strcmp(controls,'None')
-    line = strcat(line,', ',controls);
+    line = strcat(line,', CONTROLS=',controls);
 end
 
 if ~strcmp(layup,'none') && ~strcmp(layup,'NONE') && ~strcmp(layup,'None')
-    line = strcat(line,', ',layup);
+    line = strcat(line,', LAYUP=',layup);
 end
 
 if ~strcmp(order,'none') && ~strcmp(order,'NONE') && ~strcmp(order,'None')
-    line = strcat(line,', ',order);
+    line = strcat(line,', ORDER=',order);
 end
 
 if ~strcmp(stackdirection,'none') && ~strcmp(stackdirection,'NONE') && ~strcmp(stackdirection,'None')
-    line = strcat(line,', ',stackdirection);
+    line = strcat(line,', STACK DIRECTION=',stackdirection);
 end
 
 if ~strcmp(symmetric,'none') && ~strcmp(symmetric,'NONE') && ~strcmp(symmetric,'None')
-    line = strcat(line,', ',symmetric);
+    line = strcat(line,', SYMMETRIC=',symmetric);
 end
 
 fprintf(fileId,strcat(line,'\n'));
+
+if ~strcmp(comment,'none') && ~strcmp(comment,'NONE') && ~strcmp(comment,'None')
+    fprintf(fileId,strcat('**',comment,'\n'));
+end
 
 for i=1:length(data)
     fprintf(fileId,strcat(' ',data{i},'\n'));

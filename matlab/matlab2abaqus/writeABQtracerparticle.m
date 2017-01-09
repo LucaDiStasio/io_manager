@@ -1,8 +1,7 @@
-function[]=writeABQsolidsection(filepath,composite,elset,material,refnode,orientation,controls,...
-                                layup,order,stackdirection,symmetric,)
+function[]=writeABQtracerparticle(filepath,tracerset,particlebirthstages,data,comment)
 %%
 %==============================================================================
-% Copyright (c) 2016 Université de Lorraine & Luleå tekniska universitet
+% Copyright (c) 2017 Universite de Lorraine & Lulea tekniska universitet
 % Author: Luca Di Stasio <luca.distasio@gmail.com>
 %                        <luca.distasio@ingpec.eu>
 %
@@ -15,7 +14,7 @@ function[]=writeABQsolidsection(filepath,composite,elset,material,refnode,orient
 % Redistributions in binary form must reproduce the above copyright
 % notice, this list of conditions and the following disclaimer in
 % the documentation and/or other materials provided with the distribution
-% Neither the name of the Université de Lorraine or Luleå tekniska universitet
+% Neither the name of the Universite de Lorraine or Lulea tekniska universitet
 % nor the names of its contributors may be used to endorse or promote products
 % derived from this software without specific prior written permission.
 % 
@@ -42,37 +41,25 @@ fileId = fopen(filepath, 'a');
 
 fprintf(fileId,'**\n');
 
-line = strcat('*SOLID SECTION');
+line = '*TRACER PARTICLE';
 
-if ~strcmp(composite,'none') && ~strcmp(composite,'NONE') && ~strcmp(composite,'None')
-    line = strcat(line,', ',composite);
+if ~strcmp(tracerset,'none') && ~strcmp(tracerset,'NONE') && ~strcmp(tracerset,'None')
+    line = strcat(line,', TRACER SET=',tracerset);
 end
 
-if ~strcmp(elset,'none') && ~strcmp(elset,'NONE') && ~strcmp(elset,'None')
-    line = strcat(line,', ',elset);
-end
-
-if ~strcmp(material,'none') && ~strcmp(material,'NONE') && ~strcmp(material,'None')
-    line = strcat(line,', ',material);
-end
-
-if ~strcmp(refnode,'none') && ~strcmp(refnode,'NONE') && ~strcmp(refnode,'None')
-    line = strcat(line,', ',refnode);
-end
-
-if ~strcmp(orientation,'none') && ~strcmp(orientation,'NONE') && ~strcmp(orientation,'None')
-    line = strcat(line,', ',orientation);
-end
-
-if ~strcmp(controls,'none') && ~strcmp(material,'NONE') && ~strcmp(material,'None')
-    line = strcat(line,', ',controls);
-end
-
-if ~strcmp(material,'none') && ~strcmp(material,'NONE') && ~strcmp(material,'None')
-    line = strcat(line,', ',material);
+if ~strcmp(particlebirthstages,'none') && ~strcmp(particlebirthstages,'NONE') && ~strcmp(particlebirthstages,'None')
+    line = strcat(line,', PARTICLE BIRTH STAGES=',particlebirthstages);
 end
 
 fprintf(fileId,strcat(line,'\n'));
+
+if ~strcmp(comment,'none') && ~strcmp(comment,'NONE') && ~strcmp(comment,'None')
+    fprintf(fileId,strcat('**',comment,'\n'));
+end
+
+for i=1:length(data)
+    fprintf(fileId,strcat(' ',data{i},'\n'));
+end
 
 fprintf(fileId,'**\n');
 
