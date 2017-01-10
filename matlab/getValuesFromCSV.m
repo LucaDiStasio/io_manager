@@ -1,4 +1,4 @@
-function[values]=getValuesFromCSV(folder,file)
+function[values]=getValuesFromCSV(folder,file,startrow,startcol)
 %%
 %==============================================================================
 % Copyright (c) 2017 Université de Lorraine & Luleå tekniska universitet
@@ -47,7 +47,7 @@ else
     if ~exist(fullpath,'file')
        disp('Error: file does not exist');
     else
-        values = csvread(fullpath,2,0);
+        values = csvread(fullpath,startrow,startcol);
     end
 end
 
