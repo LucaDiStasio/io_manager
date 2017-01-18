@@ -46,6 +46,7 @@ if ~exist(wdPath,'dir')
     mkdir(wdPath, 'csv');
     mkdir(wdPath, 'json');
     mkdir(wdPath, 'latex');
+    mkdir(wdPath, 'abaqus');
 end
 
 return
