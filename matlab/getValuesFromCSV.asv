@@ -47,11 +47,8 @@ else
     if ~exist(fullpath,'file')
        disp('Error: file does not exist');
     else
-        if ~exist ('OCTAVE_VERSION', 'builtin')
-            values = csvread(fullpath,startrow,startcol,[startrow,startcol,startrow,endcol]);
-        else
-            values = csvread(fullpath,[startrow,startcol,startrow,endcol]);
-        end
+        
+        values = csvread(fullpath,startrow,startcol,[startrow,startcol,startrow,endcol]);
     end
 end
 
