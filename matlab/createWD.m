@@ -1,4 +1,4 @@
-function[] = createWD(path,wd)
+function[] = createWD(path,wd,csv,dat,json,latex)
 %%
 %==============================================================================
 % Copyright (c) 2016 Universit� de Lorraine & Lule� tekniska universitet
@@ -42,13 +42,21 @@ wdPath = fullfile(path,wd);
 
 if ~exist(wdPath,'dir')
     mkdir(wdPath);
-    mkdir(wdPath, 'abqinp');
-    mkdir(wdPath, 'csv');
-    mkdir(wdPath, 'json');
-    mkdir(wdPath, 'latex');
-    mkdir(fullfile(wdPath,'latex'), 'pre');
-    mkdir(fullfile(wdPath,'latex'), 'post');
-    mkdir(wdPath, 'abaqus');
+    mkdir(wdPath, 'input');
+    mkdir(wdPath, 'log');
+    mkdir(wdPath, 'solver');
+    if csv
+        mkdir(wdPath, 'csv');
+    end
+    if dat
+        mkdir(wdPath, 'dat');
+    end
+    if json
+        mkdir(wdPath, 'json');
+    end
+    if latex
+        mkdir(wdPath, 'latex');
+    end
 end
 
 return
